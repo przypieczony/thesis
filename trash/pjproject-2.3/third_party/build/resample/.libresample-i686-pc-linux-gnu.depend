@@ -1,0 +1,5 @@
+output/libresample-i686-pc-linux-gnu/resamplesubs.o: ../../resample/src/resamplesubs.c \
+ /usr/include/stdc-predef.h /usr/include/i386-linux-gnu/bits/predefs.h \
+ ../../resample/include/resamplesubs.h config.h \
+ ../../resample/src/stddefs.h ../../resample/src/resample.h \
+ ../../resample/src/smallfilter.h ../../resample/src/largefilter.h
