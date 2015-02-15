@@ -60,7 +60,7 @@ def sniff(transmission_protocol):
         print 'Socket could not be created. Error code: ' + str(msg[0]) + ' Message ' + msg[1]
         sys.exit()
 
-    packet = s.recvfrom(65565) #get a packet from socket
+    packet = s.recvfrom(66746) #get a packet from socket
     packet = packet[0]
     ip_header_packed = packet[0:20] #first 20 characters = ip header
 

@@ -1,19 +1,5 @@
 import re, socket, struct
 from kutil import getlocaladdr
-# def getlocaladdr(sock=None):
-#     '''Get the local ('addr', port) for the given socket. It uses the
-#     getsockname() to get the local IP and port. If the local IP is '0.0.0.0'
-#     then it uses gethostbyname(gethostname()) to get the local IP. The
-#     returned object's repr gives 'ip:port' string. If the sock is absent, then
-#     just gets the local IP and sets the port part as 0. This functions is used
-#     by class TransportInfo
-#     '''
-#     global _local_ip
-#     # TODO: use a better mechanism to get the address such as getifaddr
-#     addr = sock and sock.getsockname() or ('0.0.0.0', 0)
-#     if addr and addr[0] == '0.0.0.0': 
-#         addr = (_local_ip if _local_ip else socket.gethostbyname(socket.gethostname()), addr[1])
-#     return addr
 
 def isIPv4(data):
     try:
@@ -378,15 +364,15 @@ class TransportInfo:
         self.reliable = self.congestionControlled = (sock.type==socket.SOCK_STREAM)
 
 class App():
-        def send(self, data, dest): pass
+        def send(self, data, dest): print "send data to {}".format(dest)
             #'to send data (str) to dest ('192.1.2.3', 5060).'
         def sending(self, data, dest): pass
             #'to indicate that a given data (Message) will be sent to the dest (host, port).'
-        def createServer(self, request, uri): return UserAgent(stack, request)
+        def createServer(self, request, uri): return UserAgent(stack, request) if request.method != "REGISTER" else None
             #'to ask the application to create a UAS for this request (Message) from source uri (Uri).'
-        def receivedRequest(self, ua, request): pass
+        def receivedRequest(self, ua, request): print "Received request: {}".format(request)
             #'to inform that the UAS or Dialog has recived a new request (Message).'
-        def receivedResponse(self, ua, request): pass
+        def receivedResponse(self, ua, response): print "Received response: {}"format(response)
             #'to inform that the UAC or Dialog has recived a new response (Message).'
         def cancelled(self, ua, request): pass
             #'to inform that the UAS or Dialog has received a cancel for original request (Message).'
@@ -394,7 +380,7 @@ class App():
             #'to inform that the a new Dialog is created from the old UserAgent.'
         def authenticate(self, ua, header): header.password='mypass'; return True
             #'to ask the application for credentials for this challenge header (Header).'
-        def createTimer(self, cbObj): return timerObject
+        def createTimer(self, cbObj): 
             #'the returned timer object must have start() and stop() methods, a delay (int)'
 
 class Stack(object):
@@ -575,12 +561,6 @@ class Stack(object):
 
     def createServer(self, request, uri, stack): 
         return UserAgent(stack, request) if request.method != "REGISTER" else None
-
-    # def receivedRequest(self, ua, request, stack):
-    # def receivedResponse(self, ua, response, stack):
-    # def sending(self, ua, message, stack):
-    # def cancelled(self, ua, request, stack):
-    # def dialogCreated(self, dialog, ua, stack):
 
     def authenticate(self, ua, obj, stack): 
         obj.username, obj.password = "kundan", "mysecret"
